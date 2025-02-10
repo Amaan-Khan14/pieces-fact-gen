@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Fact Generator</title>
+    <style>
+        /* CSS Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom, #e0ffff, #cce0ff); 
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Glassmorphism Navbar */
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.25); /* Adjust transparency as needed */
+            backdrop-filter: blur(10px); /* Add blur for glass effect */
+            width: 100%;
+            padding: 20px;
+            position: fixed;
+            top: 0;
+            display: flex;
+            justify-content: flex-end;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            text-align: center;
+            padding: 50px 20px; 
+        }
+
+        h1 {
+            color: #007bff; 
+            margin-bottom: 20px; 
+        }
+
+        #fact {
+            font-size: 1.2em;
+            margin-bottom: 30px; 
+            line-height: 1.6;
+            transition: opacity 0.5s ease-in-out; 
+        }
+
+        button {
+            background-color: #28a745; 
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+            margin-right: 10px; 
+        }
+
+        button:hover {
+            background-color: #218838; 
+        }
+
+        /* Glassmorphism Add Fact Form */
+        .add-fact-form {
+            background-color: rgba(255, 255, 255, 0.25); /* Glass effect */
+            backdrop-filter: blur(10px); /* Add blur */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10; 
+            display: none;
+        }
+
+        #newFact {
+            padding: 10px;
+            border: 1px solid rgba(204, 204, 204, 0.5); /* Semi-transparent border */
+            border-radius: 5px;
+            width: 200px; 
+            margin-bottom: 10px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <button id="showFormBtn">Add Fact</button>
+    </div>
+    <div class="container">
+        <h1>Did You Know?</h1>
+        <p id="fact"></p>
+        <button id="generate">Generate Fact</button>
+    </div>
+
+    <div class="add-fact-form" id="addFactForm">
+        <span class="close-btn" onclick="closeForm()">&times;</span> 
+        <h2>Add Your Own Fact</h2>
+        <input type="text" id="newFact" placeholder="Enter a new fact">
+        <button id="addFact">Add Fact</button>
+    </div>
+
+    <script>
+        const facts = [
+            "The population of the earth is about 8 billion people.",
+            "The average person laughs about 10 times a day.",
+            "It's impossible for most people to lick their own elbow.",
+            // ... more facts
+        ];
+
+        const factElement = document.getElementById("fact");
+        const generateButton = document.getElementById("generate");
+        const addFactForm = document.getElementById("addFactForm");
+        const showFormBtn = document.getElementById("showFormBtn");
+        const addFactBtn = document.getElementById("addFact");
+        const newFactInput = document.getElementById("newFact");
+
+        function displayRandomFact() {
+            factElement.style.opacity = 0; // Fade out current fact
+            setTimeout(() => { // Wait for fade out
+                const randomIndex = Math.floor(Math.random() * facts.length);
+                factElement.textContent = facts[randomIndex];
+                factElement.style.opacity = 1; // Fade in new fact
+            }, 500); // 500 milliseconds (0.5 seconds) for fade effect
+        }
+
+        generateButton.addEventListener("click", displayRandomFact);
+
+        // Add Fact Form Functionality
+        showFormBtn.addEventListener("click", () => {
+            addFactForm.style.display = "block";
+        });
+
+        function closeForm() {
+            addFactForm.style.display = "none";
+        }
+
+        addFactBtn.addEventListener("click", () => {
+            const newFact = newFactInput.value.trim();
+            if (newFact !== "") {
+                facts.push(newFact);
+                newFactInput.value = "";
+                closeForm(); 
+                alert("Fact added successfully!");
+            } else {
+                alert("Please enter a fact.");
+            }
+        });
+
+        // Initial Fact Display 
+        displayRandomFact(); 
+    </script>
+</body>
+</html>
